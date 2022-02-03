@@ -1,0 +1,16 @@
+Mutex === fourchette
+
+Mutex_lock == bloque la fourchette pour aucun thread la prenne
+Mutex_init == initialise le Mutex appelant;
+Mutex_destru = detruit le mutex a la fin de lutilisation
+Mutex_unlock == va me permettre de liberer la fourchette pour un autre thread
+pthread_create == Creation du thread pendant thread + 1 sexecute
+pthread_join == Permet de suspendre lexecution du  main thread
+Faire une structure avec toute mes variables times_to et mes Right&Left fourchette(mutex)
+
+Comparer larg TIME TO DIE  avec le debut de la similuation et le temps quil prend pour manger 
+(en gros des que le thread se lance il a TIME TO DIE temps pour manger sinn il meurt)
+
+Comparer TIME TO DIE avec la temps entre le premier et le deuxieme repas du philo 
+
+Faire en sorte que le philo qui mange garde les 2 fourchettes TIME TO EAT TEMPS

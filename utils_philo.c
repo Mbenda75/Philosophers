@@ -6,7 +6,7 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 16:13:49 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/02 13:03:51 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/03 18:30:50 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void    check_arg(char **av)
     {
         while (av[i][j])
         {
-            if (ft_isdigit(av[i][j]) == 1)
+            if (ft_isdigit(av[i][j]) == 1 || atoi(av[1]) > 200)
             {
                 printf("bad character\n");
                 exit(1);
@@ -96,14 +96,13 @@ int main(int ac, char **av)
     check_arg(av);
     while (i < th.nb_philo)
     {
-        pthread_create(&thread[i], NULL, &routine_eat, NULL); //Creation du thread
+        pthread_create(&thread[i], NULL, &routine_eat, NULL);
         i++;
     }
     i = 0;
     while (i < th.nb_philo)
     { 
-        pthread_join(thread[i], NULL);   //Permet de suspendre lexecution du  main thread
-                                        //pendant thread + 1 sexecute
+        pthread_join(thread[i], NULL);
         i++;
     }
     pthread_mutex_destroy(&mutex); 

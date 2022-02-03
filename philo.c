@@ -6,7 +6,7 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 13:35:28 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/02 12:34:32 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:36:42 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,6 @@
 
 
 #define NB_THREADS 5
-
-///Mutex === fourchette
-//Mutex_lock == bloque la fourchette pour aucun thread la prenne
-//Mutex_unlock == va me permettre de liberer la fourchette pour un autre thread
-//Faire un tableau de thread 
-//faire un tableau de mutex
-//Faire une structure avec toute mes variables times_to et mes Right&Left fourchette(mutex)
-//
 
 pthread_mutex_t     mutex;
 int i = 0;
