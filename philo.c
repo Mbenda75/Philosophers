@@ -5,76 +5,61 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/27 13:35:28 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/04 13:43:20 by benmoham         ###   ########.fr       */
+/*   Created: 2022/02/07 14:20:06 by benmoham          #+#    #+#             */
+/*   Updated: 2022/02/07 19:07:32 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
+#include "philosopher.h"
 
-typedef struct s_utils_philo
+void    start_philo(t_utils_philo *philo)
 {
-    int     nb_philo;
-    int     time_die; // s’il a pas mangé depuis time_to_die millisecondes il meurt
-    int     time_eat; //temps pour manger avec deux fourchettes en millisecondes
-    int     time_sleep; //temps pour dormir en milliseconde
-    int     nb_eat; /// nb de fois qu un philo doit manger
-    int     i;          //index pour boucler sur le nombre de philo
-    int     stock_time;
-    int     lock;
-
-    pthread_t           *thread;
-    pthread_mutex_t     left_fork;
-    pthread_mutex_t     sleep_mutex;
-    pthread_mutex_t     *right_fork;
-}   t_utils_philo;
-
-void  init_struc(t_utils_philo *th, char **av)
-{
-    th->nb_philo = atoi(av[1]);
-    th->time_die = atoi(av[2]);
-    th->time_eat = atoi(av[3]);
-    th->time_sleep = atoi(av[4]);
-}
-
-void   *routine_eat(void *p)
-{
-    t_utils_philo *ph;
+    int j;
+    struct timeval time;
     
-    ph = (t_utils_philo *)p;
-    
-    pthread_mutex_lock(&ph->left_fork);
-    printf("Philo is eating\n");
-    pthread_mutex_unlock(&ph->left_fork);
-    return (0);
+    j = 0;
+
+    pthread_mutex_init(&philo->sleep_mutex, NULL);
+    pthread_mutex_init(&philo->write_mutex, NULL);
+    gettimeofday(&time, NULL);
+    printf("Time START %ld\n", time.tv_usec);
+    while(j <  philo->info->nb_philo)
+    {
+        pthread_create(&philo[j].thread, NULL, &routine, philo);
+        //sleep(1);
+        j++;
+    }
+    j = 0;
+    while(j < philo[j].info->nb_philo)
+    {
+        pthread_join(philo[j].thread, NULL);
+        j++;
+    }
+    j = 0;
+    while(j < philo[j].info->nb_philo)
+    {
+        pthread_mutex_destroy(&philo[j].left_fork);
+        j++;
+    }
+    pthread_mutex_destroy(&philo->sleep_mutex); 
+    pthread_mutex_destroy(&philo->write_mutex);
 }
 
 int main (int ac, char **av)
 {
-    t_utils_philo philo;
+    t_utils_philo *philo;
+    t_utils_arg info;
 
-    init_struc(&philo, av);
-
-    pthread_t *t;
-    t = malloc(sizeof(pthread_t) * philo.nb_philo);
-    //philo = malloc(sizeof(t_utils_philo) * philo.nb_philo);
-    int i =0;
-    pthread_mutex_init(&philo.left_fork, NULL);
-    while(i < philo.nb_philo)
-    {
-        pthread_create(&t[i], NULL, &routine_eat, &philo);
-        //philo[i].thread = &t[i];
-        i++;
-    }
-    i =0;
-    while (i < philo.nb_philo)
-    {
-        pthread_join(t[i], NULL);
-        i++; 
-    }
+    check_arg(av);
+    philo = malloc(sizeof(t_utils_philo) * ft_atoi(av[1]));
+    philo = file_struc(philo, &info, av);
+    start_philo(philo);
     return (0);
 }
+
+/*
+    printf("Time is %ld\n", time.tv_usec);
+    printf("t_sleep == %d\n", info.time_sleep);
+    printf("t_eat == %d\n", info.time_eat);
+    printf("t_die == %d\n", info.time_die);
+    printf("nb philo == %d\n", info.nb_philo); */

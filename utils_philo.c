@@ -6,105 +6,62 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 16:13:49 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/03 18:30:50 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/07 19:10:43 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/time.h>
+#include "philosopher.h"
 
-//# define FORK       "has taken a fork"
-//# define EAT        "is eating"
-//# define SLEEP      "is sleeping"
-//# define THINK      "is thinking"
-//# define DEAD       "is dead"
-
-
-typedef struct s_utils_philo
+ void    for_sleep(t_utils_philo *philo)
 {
-    int     nb_philo;
-    int     time_die; // s’il a pas mangé depuis time_to_die millisecondes il meurt
-    int     time_eat; //temps pour manger avec deux fourchettes en millisecondes
-    int     time_sleep; //temps pour dormir en milliseconde
-    
-    //pthread_mutex_t     fork_left;
-    //pthread_mutex_t     *right_left;
-        
-}   t_utils_philo;
-
-void   init_struc(t_utils_philo *th, char **av)
-{
-    th->nb_philo = atoi(av[1]);
-    th->time_die = atoi(av[2]);
-    th->time_eat = atoi(av[3]);
-    th->time_sleep = atoi(av[4]);
+    pthread_mutex_lock(&philo->write_mutex);
+    printf("\033[96mPhilo %d %s\033[0m\n", philo->info->id, SLEEP);
+    philo->info->id++;
+    pthread_mutex_unlock(&philo->write_mutex);
+    //usleep(philo->info->time_sleep);
 }
 
-pthread_mutex_t     mutex;
-
-void    *routine_eat()
+void    for_eat(t_utils_philo *philo)
 {
-    pthread_mutex_lock(&mutex);
-    printf("Philo is eating\n");
-    pthread_mutex_unlock(&mutex);
-}
-
-int	ft_isdigit(char s)
-{
-	if (s >= '0' && s <= '9')
-		return (0);
-	else
-		return (1);
-}
-
-void    check_arg(char **av)
-{
-    int i;
-    int j;
-
-    i = 1;
-    j = 0;
-    while(av[i])
+    struct timeval time;
+    if (philo->info->id <= philo->info->nb_philo)
     {
-        while (av[i][j])
+        gettimeofday(&time, NULL);
+        pthread_mutex_lock(&philo->write_mutex);
+        //printf("[Time START EAT is %ld\n", time.tv_usec);
+        printf("\033[95mTime START EAT %ld Philo %d %s\033[0m\n", time.tv_usec, philo->info->id, EAT);
+    }
+    //usleep(philo->info->time_eat);
+    gettimeofday(&time, NULL);
+    printf("\033[95mTime END EAT is %ld\033[0m\n", time.tv_usec);
+    pthread_mutex_unlock(&philo->write_mutex);
+}
+
+void    *routine(void *arg)
+{
+    t_utils_philo *philo;
+    
+    philo = (t_utils_philo *)arg;
+    while (1)
+    {
+        if (philo->info->id <= philo->info->nb_philo)
         {
-            if (ft_isdigit(av[i][j]) == 1 || atoi(av[1]) > 200)
-            {
-                printf("bad character\n");
-                exit(1);
-            }
-            j++;
+            pthread_mutex_lock(&philo->write_mutex);
+            printf("\033[93mPhilo %d %s\033[0m\n", philo->info->id, FORK);
+            printf("\033[93mPhilo %d %s\033[0m\n", philo->info->id, FORK);
+            pthread_mutex_unlock(&philo->write_mutex);
+            
+            pthread_mutex_lock(&philo->left_fork);
+            //pthread_mutex_lock(philo->right_fork);
+            for_eat(philo);
+            pthread_mutex_unlock(&philo->left_fork);
+            //pthread_mutex_unlock(philo->right_fork);
+            
+            pthread_mutex_lock(&philo->sleep_mutex);
+            for_sleep(philo);
+            pthread_mutex_unlock(&philo->sleep_mutex);
         }
-        j = 0;
-        i++;
+        else
+            exit(1);
     }
-}
-
-int main(int ac, char **av)
-{
-    (void)ac;
-    int i = 0;
-    t_utils_philo th;
-    
-    init_struc(&th, av);
-    pthread_t thread[th.nb_philo];
-  
-    pthread_mutex_init(&mutex, NULL);
-    check_arg(av);
-    while (i < th.nb_philo)
-    {
-        pthread_create(&thread[i], NULL, &routine_eat, NULL);
-        i++;
-    }
-    i = 0;
-    while (i < th.nb_philo)
-    { 
-        pthread_join(thread[i], NULL);
-        i++;
-    }
-    pthread_mutex_destroy(&mutex); 
-    return (0);
-}
+} 
