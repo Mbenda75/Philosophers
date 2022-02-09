@@ -1,34 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_time.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/01 17:17:16 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/09 17:33:58 by benmoham         ###   ########.fr       */
+/*   Created: 2022/02/07 14:20:06 by benmoham          #+#    #+#             */
+/*   Updated: 2022/02/09 19:22:54 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-//int gettimeofday(struct timeval *tv, struct timezone *tz);
-/*struct timeval {
-    time_t      tv_sec;  = secondes 
-    suseconds_t tv_usec; = microsecondes 
-};*/
-
-long int		actual_time(void)
-{
-	long int			time;
-	struct timeval		current_time;
-
- 	time = 0;
-	if (gettimeofday(&current_time, NULL) == -1)
-		ft_exit("Gettimeofday returned -1\n");
-	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000); //temps en millisecondes
-	return (time);
- }
 
 void	ft_usleep(long int time_in_ms)
 {
@@ -39,23 +22,28 @@ void	ft_usleep(long int time_in_ms)
 	while ((actual_time() - start_time) < time_in_ms)
 		usleep(time_in_ms / 10);
 }
- 
-int main()
+
+long int		actual_time(void)
 {
-    struct timeval		current_time;
+	long int			time;
+	struct timeval		current_time;
 
-	
+ 	time = 0;
 	if (gettimeofday(&current_time, NULL) == -1)
-     return 0;
-
-     printf("secc === %ld\n", current_time.tv_sec);
-     printf(" micro secc == %ld\n", current_time.tv_usec);
+		exit(-1);
+	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000); //temps en millisecondes
+	return (time);
 }
 
-1644329107 
-74578
-
-void	for_die()
+int main (int ac, char **av)
 {
-	
+    if (ac > 6 || ac < 5)
+        exit(1);
+    t_utils_philo *philo;
+    t_utils_arg info;
+    check_arg(av);
+    philo = malloc(sizeof(t_utils_philo) * ft_atoi(av[1]));
+    philo = file_struc(philo, &info, av);
+    start_philo(philo);
+    return (0);
 }
