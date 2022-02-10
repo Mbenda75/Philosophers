@@ -6,7 +6,7 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:20:06 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/09 19:22:54 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/10 21:07:03 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ long int		actual_time(void)
 		exit(-1);
 	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000); //temps en millisecondes
 	return (time);
+}
+
+int	check_dead(t_utils_philo *philo)
+{
+    pthread_mutex_lock(&philo->info->death_mutex);
+	if ( (actual_time() - philo->info->start_time) - philo->last_meal >= philo->info->time_die)
+	{
+        pthread_mutex_unlock(&philo->info->death_mutex);
+		display_msg(philo, DEAD, 1);
+		return (0);
+	}
+	pthread_mutex_unlock(&philo->info->death_mutex);
+	return (1);
 }
 
 int main (int ac, char **av)
