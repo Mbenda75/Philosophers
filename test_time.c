@@ -6,7 +6,7 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:17:16 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/09 17:33:58 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/13 17:45:58 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ long int		actual_time(void)
 	return (time);
  }
 
+int check_stop(t_utils_arg *info)
+{
+    int ret;
+    pthread_mutex_lock(&info->stop_mutex);
+    ret = 1; 
+    pthread_mutex_unlock(&info->stop_mutex);
+    return (ret);
+}
 void	ft_usleep(long int time_in_ms)
 {
 	long int	start_time;

@@ -6,7 +6,7 @@
 #    By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/22 11:48:55 by benmoham          #+#    #+#              #
-#    Updated: 2022/02/10 20:42:31 by benmoham         ###   ########.fr        #
+#    Updated: 2022/02/13 18:45:42 by benmoham         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OBJS			= $(SRCS:.c=.o)
 
 NAME			= philo
 
-CFLAGS			= -Wall -Wextra -Werror -g3 -pthread -fsanitize=thread
+CFLAGS			= -Wall -Wextra -Werror -g3 -pthread
 
 RM				= rm -f
 
