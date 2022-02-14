@@ -6,7 +6,7 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:19:44 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/13 17:09:24 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/14 17:36:09 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <limits.h>
 
 typedef struct s_utils_arg
 {
@@ -60,12 +61,16 @@ long int		actual_time(void);
 void    for_eat(t_utils_philo *philo);
 void    *routine(void *arg);
 int     check_dead(t_utils_philo *philo);
-int check_stop(t_utils_arg *info);
-void    check_arg(char **av);
+int     check_stop(t_utils_arg *info);
+int ft_strlen(char *str);
+int   check_arg(char **av);
+int	check_max(char *av);
 int     check_eat(t_utils_philo *philo);
-void    exec_philo(t_utils_philo *philo);
+void    finish_prog(t_utils_philo *philo);
+void	take_right_fork(int nb, t_utils_philo *philo);
 int	    ft_isdigit(char s);
-int     ft_atoi(const char *str);
+long    ft_atol(char *str);
+void	take_fork(t_utils_philo *philo);
 void	ft_usleep(long int time_in_ms);
 void    start_philo(t_utils_philo *philo);
 void    display_msg(t_utils_philo *philo, char *msg, int check_die);
