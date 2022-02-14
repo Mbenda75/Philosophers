@@ -6,7 +6,7 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:20:06 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/13 18:04:12 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/14 17:23:26 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ void	ft_usleep(long int time_in_ms, t_utils_arg *info)
     }
 }
 
-long int		actual_time(void)
+long int	actual_time(void)
 {
 	long int			time;
 	struct timeval		current_time;
 
- 	time = 0;
+	time = 0;
 	if (gettimeofday(&current_time, NULL) == -1)
 		return (-1);
-	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000); //temps en millisecondes
+	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 	return (time);
 }
 

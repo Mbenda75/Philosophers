@@ -6,12 +6,11 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:18:54 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/07 18:55:43 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/14 17:36:01 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
-
 
 long    ft_atol(char *str)
 {
