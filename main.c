@@ -13,14 +13,19 @@
 #include "philosopher.h"
 
 
-void	ft_usleep(long int time_in_ms)
+void	ft_usleep(long int time_in_ms, t_utils_arg *info)
 {
 	long int	start_time;
 
 	start_time = 0;
 	start_time = actual_time();
+    (void)info;
 	while ((actual_time() - start_time) < time_in_ms)
-		usleep(time_in_ms / 10);
+    {
+        if (check_stop(info) == 1)
+            break ;
+		usleep(50);
+    }
 }
 
 long int		actual_time(void)
@@ -40,10 +45,10 @@ int	check_dead(t_utils_philo *philo)
     pthread_mutex_lock(&philo->info->death_mutex);
 	if ((actual_time() - philo->info->start_time) - philo->last_meal >= philo->info->time_die)
 	{
+		display_msg(philo, DEAD, 1);
         pthread_mutex_lock(&philo->info->stop_mutex);
         philo->info->stop = 1;
         pthread_mutex_unlock(&philo->info->stop_mutex);
-		display_msg(philo, DEAD, 1);
         pthread_mutex_unlock(&philo->info->death_mutex);
 		return  (0);
 	}
@@ -67,23 +72,27 @@ int     check_eat(t_utils_philo *philo)
         pthread_mutex_lock(&philo->info->stop_mutex);
         philo->info->stop = 1;
         pthread_mutex_unlock(&philo->info->stop_mutex);
-		display_msg(philo, ALL, 1);
         pthread_mutex_unlock(&philo->info->eat_mutex);
         return  (0);
     }
     pthread_mutex_unlock(&philo->info->eat_mutex);
     return (1);
 }
-int main (int ac, char **av)
+
+int	main(int ac, char **av)
 {
-    if (ac > 6 || ac < 5)
-        return (1);
-    t_utils_philo *philo;
-    t_utils_arg info;
-    check_arg(av);
-    philo = malloc(sizeof(t_utils_philo) * ft_atoi(av[1]));
-    philo = file_struc(philo, &info, av);
-    start_philo(philo);
-    free(philo);
-    return (0);
+	t_utils_philo	*philo;
+	t_utils_arg		info;
+	
+	if (ac > 6 || ac < 5)
+		return (1);
+	if (check_arg(av) == 1)
+		return (1);
+	philo = malloc(sizeof(t_utils_philo) * ft_atol(av[1]));
+	if (!philo)
+		return (-1);
+	philo = file_struc(philo, &info, av);
+	start_philo(philo);
+	free(philo);
+	return (0);
 }

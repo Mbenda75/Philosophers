@@ -19,11 +19,11 @@ void    *routine(void *arg)
     philo = (t_utils_philo *)arg; 
     while (check_stop(philo->info) == 0)
     {
-        if (philo->id % 2)
-            ft_usleep (philo->info->time_eat); 
+        if (philo->id % 2 ==0)
+            usleep (50); 
         for_eat(philo);
         display_msg(philo, SLEEP, 0);
-        ft_usleep(philo->info->time_sleep);
+        ft_usleep(philo->info->time_sleep, philo->info);
         display_msg(philo, THINK, 0);
     }
     return (NULL);
