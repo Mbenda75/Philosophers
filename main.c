@@ -6,12 +6,11 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 14:20:06 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/15 12:30:49 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/15 20:25:38 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
-
 
 void	ft_usleep(long int time_in_ms, t_utils_arg *info)
 {
@@ -19,13 +18,13 @@ void	ft_usleep(long int time_in_ms, t_utils_arg *info)
 
 	start_time = 0;
 	start_time = actual_time();
-    (void)info;
+	(void)info;
 	while ((actual_time() - start_time) < time_in_ms)
-    {
-        if (check_stop(info) == 1)
-            break ;
+	{
+		if (check_stop(info) == 1)
+			break ;
 		usleep(50);
-    }
+	}
 }
 
 long int	actual_time(void)
@@ -44,9 +43,12 @@ int	main(int ac, char **av)
 {
 	t_utils_philo	*philo;
 	t_utils_arg		info;
-	
+
 	if (ac > 6 || ac < 5)
+	{
+		printf("wrong argument\n");
 		return (1);
+	}
 	if (check_arg(av) == 1)
 		return (1);
 	philo = malloc(sizeof(t_utils_philo) * ft_atol(av[1]));

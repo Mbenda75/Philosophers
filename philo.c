@@ -6,7 +6,7 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 16:13:49 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/15 15:35:22 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/15 19:33:19 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,12 @@
 
 void	*routine(void *arg)
 {
-    t_utils_philo *philo;
-    
-    philo = (t_utils_philo *)arg; 
-    while (check_stop(philo->info) == 0)
-    {
-        take_fork(philo);
-        display_msg(philo, SLEEP, 0);
-        ft_usleep(philo->info->time_sleep, philo->info);
-        display_msg(philo, THINK, 0);
-    }
-    return (NULL);
+	t_utils_philo	*philo;
+
+	philo = (t_utils_philo *)arg;
+	while (check_stop(philo->info) == 0)
+		take_fork(philo);
+	return (NULL);
 }
 
 void	finish_prog(t_utils_philo *philo)

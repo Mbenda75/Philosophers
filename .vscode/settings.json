@@ -1,6 +1,8 @@
 {
     "files.associations": {
-        "time.h": "c",
-        "philosopher.h": "c"
-    }
+		"time.h": "c",
+		"philosopher.h": "c",
+		"string.h": "c",
+		"stdlib.h": "c"
+	}
 }
