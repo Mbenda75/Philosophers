@@ -6,7 +6,7 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 16:11:44 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/14 18:10:34 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/15 14:07:49 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_utils_philo	*file_struc(t_utils_philo *philo, t_utils_arg *info, char **av)
     i = -1;
     while (++i < nb)
     {
-        if (i == nb)
+        if (i == nb - 1)
             philo[i].right_fork = &philo[0].left_fork;
         else
             philo[i].right_fork = &philo[i + 1].left_fork;

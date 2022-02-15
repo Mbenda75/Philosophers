@@ -6,7 +6,7 @@
 /*   By: benmoham <benmoham@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 16:13:49 by benmoham          #+#    #+#             */
-/*   Updated: 2022/02/14 18:07:09 by benmoham         ###   ########.fr       */
+/*   Updated: 2022/02/15 15:35:22 by benmoham         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	*routine(void *arg)
     philo = (t_utils_philo *)arg; 
     while (check_stop(philo->info) == 0)
     {
-        if (philo->id % 2 ==0)
-            usleep (50); 
-        for_eat(philo);
+        take_fork(philo);
         display_msg(philo, SLEEP, 0);
         ft_usleep(philo->info->time_sleep, philo->info);
         display_msg(philo, THINK, 0);
@@ -64,6 +62,7 @@ void	create_thread(t_utils_philo *philo)
 	while (j < philo->info->nb_philo)
 	{
 		pthread_create(&philo[j].thread, NULL, &routine, &philo[j]);
+		usleep(2000);
 		j++;
 	}
 	finish_prog(philo);
